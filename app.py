@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import json
 import base64
+from dotenv import dotenv_values
 
 app = Flask(__name__)
 
@@ -72,6 +73,15 @@ def validate_user_entry():
         return jsonify({"message": "Valid user", "token": users().getData()[username]['userToken']}), 200
     else:
         return jsonify({"message": "Invalid user"}), 401
+
+
+@app.route('/admin-debug', methods=['GET'])
+def admin_debug():
+    password = request.args.get('password')
+    if password == dotenv_values('.env')['ADMIN_PASSWORD']:
+        return users().getData(), 200
+    else:
+        return jsonify({"message": "Wrong Password"}), 401
 
 
 @app.route('/remove-account', methods=['PUT'])
