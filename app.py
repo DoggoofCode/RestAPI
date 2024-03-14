@@ -78,7 +78,10 @@ def validate_user_entry():
 @app.route('/admin-debug', methods=['GET'])
 def admin_debug():
     password = request.args.get('password')
-    if password == dotenv_values('.env')['ADMIN_PASSWORD']:
+    config = {
+        **dotenv_values('.env'),
+    }
+    if password == config['ADMIN_PASSWORD']:
         return users().getData(), 200
     else:
         return jsonify({"message": "Wrong Password"}), 401
