@@ -58,6 +58,11 @@ def add_user():
     return jsonify({"message": "User added successfully"}), 201
 
 
+@app.route('/')
+def home():
+    return jsonify({"message": "Welcome to the user management system this is a simple user management system"}), 200
+
+
 @app.route('/validate-user-entry', methods=['GET'])
 def validate_user_entry():
     username = request.args.get('username')
